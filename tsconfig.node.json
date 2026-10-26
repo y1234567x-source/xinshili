@@ -1,16 +1,17 @@
 {
-  "extends": "@lark-apaas/fullstack-presets/lib/simple/tsconfig/tsconfig.node.json",
   "compilerOptions": {
+    "composite": true,
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "strict": false,
     "baseUrl": "./",
     "outDir": "./dist",
     "paths": {
       "@server/*": ["server/*"],
-      "@shared/*": ["shared/*"],
+      "@shared/*": ["shared/*"]
     }
   },
-  "watchOptions": {
-    "excludeDirectories": ["node_modules/**"]
-  },
-  "include": ["server/**/*", "shared/**/*.ts"],
-  "exclude": ["node_modules", "dist", "client", "**/*.spec.ts", "**/*.e2e-spec.ts"],
+  "include": ["vite.config.ts", "shared/**/*.ts"]
 }

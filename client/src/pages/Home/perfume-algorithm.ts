@@ -7,6 +7,7 @@ import {
   AVOID_RULES,
   type Scent,
 } from './perfume-data';
+import { formatCardAnalysisNarrative } from './ai-perfume-engine';
 
 export interface ParsedIntent {
   rawText: string;
@@ -43,12 +44,197 @@ export interface Direction {
 export interface StoryCard {
   title: string;
   coCreators: string;
+  customerName: string;
+  heartYouthName: string;
+  customerMood: string;
+  customWish?: string;
+  topScentName: string;
+  soulScentName: string;
+  baseScentName: string;
+  youthArtworkImage?: string;
+  youthArtworkTitle?: string;
+  serialNumber: string;
+  createdDate: string;
   keywords: string[];
   formulaByNote: { top: string[]; middle: string[]; base: string[] };
   totalDrops: number;
   diluentText: string;
   story: string;
   understandingLine: string;
+  coCreationStory: string;
+  harmonyAnalysis: string;
+  constantQuote: string;
+}
+
+export interface SoulScentCandidate {
+  scent: Scent;
+  recommendReason: string;
+  speechLine: string;
+}
+
+export function getCandidateSoulScents(customerWish: string): SoulScentCandidate[] {
+  const parsed = parseCustomerWish(customerWish);
+  const feelings = mapIntentToFeelings(parsed);
+  const scored = scoreScents(SCENTS, parsed, feelings);
+
+  // Focus primarily on expressive middle & top notes that heart youths can easily recognize and love
+  const preferredPool = scored.filter(
+    (item) => item.scent.note === 'middle' || item.scent.category === 'citrus' || item.scent.category === 'woody'
+  );
+  const sorted = (preferredPool.length >= 3 ? preferredPool : scored).sort((a, b) => b.score - a.score);
+
+  const selectedScents: Scent[] = [];
+  for (const item of sorted) {
+    if (!selectedScents.some((s) => s.id === item.scent.id || s.category === item.scent.category)) {
+      selectedScents.push(item.scent);
+    }
+    if (selectedScents.length >= 3) break;
+  }
+
+  // Fallback if needed
+  if (selectedScents.length < 3) {
+    for (const item of sorted) {
+      if (!selectedScents.some((s) => s.id === item.scent.id)) {
+        selectedScents.push(item.scent);
+      }
+      if (selectedScents.length >= 3) break;
+    }
+  }
+
+  return selectedScents.map((scent) => {
+    const speechMap: Record<string, string> = {
+      lemon: `“我为你选了【柠檬】，酸酸清清的，像阳光一样有活力！”`,
+      green_orange: `“我为你选了【绿柑橘】，像一颗新鲜的小橘子，清爽又可爱！”`,
+      peach: `“我为你选了【水蜜桃】，甜甜多汁的，希望你每天都甜甜的！”`,
+      jasmine: `“我为你选了【茉莉】，像夜晚盛开的小白花，香香软软的！”`,
+      white_tea: `“我为你选了【白茶】，很安静很干净，适合放松的时候闻一闻！”`,
+      osmanthus: `“我为你选了【金桂】，像秋天落下的金色桂花，特别温暖！”`,
+      rose: `“我为你选了【玫瑰】，经典的温柔花香，是一份心意满满的礼物！”`,
+      lily_of_the_valley: `“我为你选了【铃兰】，像白色的小铃铛，纯洁又温柔！”`,
+      green_tea: `“我为你选了【绿茶】，淡淡的茶香，闻着很舒服不心烦！”`,
+      sandalwood: `“我为你选了【檀香】，很安心很沉稳的木头香，能安抚心情！”`,
+      cedar: `“我为你选了【雪松】，像冬天松树林里的清风，自然又有力量！”`,
+      synthetic_musk: `“我为你选了【白麝香】，像晒过太阳的干净衣服，暖洋洋的！”`,
+      coconut: `“我为你选了【椰子】，像去海边吃甜甜的椰子糖，很放松！”`,
+      mimosa: `“我为你选了【含羞草】，软绵绵的嫩黄色小花，特别治愈！”`,
+    };
+
+    const speechLine = speechMap[scent.id] || `“我为你选了【${scent.name}】，${scent.childFriendlyDescription} 希望你喜欢！”`;
+    const reasonMap: Record<string, string> = {
+      peach: '甜美抚平，带来温暖陪伴感',
+      white_tea: '安静澄澈，释放压力与纷扰',
+      lemon: '明朗清新，唤醒一整天的精神',
+      green_orange: '草木甘橘，自然清爽不黏腻',
+      jasmine: '优雅纯白，抚平心头的褶皱',
+      osmanthus: '金秋桂雨，给生活加一点甜',
+      cedar: '沉静雪松，如身处大自然的安宁',
+      sandalwood: '温润檀木，深层定心与宁静',
+      green_tea: '清雅绿茶，给心情透透气',
+      synthetic_musk: '温柔体香，如拥抱般的安全感',
+    };
+    const recommendReason = reasonMap[scent.id] || scent.customerDescription;
+
+    return {
+      scent,
+      recommendReason,
+      speechLine,
+    };
+  });
+}
+
+export function generateDirectionWithSoul(
+  customerWish: string,
+  soulScentId: string,
+): {
+  parsedIntent: ParsedIntent;
+  simpleFeelings: string[];
+  direction: Direction;
+  finalFormula: { formula: Formula; totalDrops: number };
+  perfumeName: string;
+} {
+  const soulScent = SCENTS.find((s) => s.id === soulScentId) || SCENTS[0];
+  const parsedIntent = parseCustomerWish(customerWish);
+  const simpleFeelings = mapIntentToFeelings(parsedIntent);
+  const scored = scoreScents(SCENTS, parsedIntent, simpleFeelings);
+
+  // Complementary scents based on soul scent note
+  let topScent: Scent;
+  let mid1: Scent;
+  let mid2: Scent;
+  let base1: Scent;
+  let base2: Scent;
+
+  const topPool = scored.filter((i) => i.scent.note === 'top' && i.scent.id !== soulScent.id);
+  const midPool = scored.filter((i) => i.scent.note === 'middle' && i.scent.id !== soulScent.id);
+  const basePool = scored.filter((i) => i.scent.note === 'base' && i.scent.id !== soulScent.id);
+
+  if (soulScent.note === 'top') {
+    topScent = soulScent;
+    mid1 = midPool[0]?.scent || SCENTS.find((s) => s.id === 'white_tea')!;
+    mid2 = midPool[1]?.scent || SCENTS.find((s) => s.id === 'jasmine')!;
+    base1 = basePool[0]?.scent || SCENTS.find((s) => s.id === 'cedar')!;
+    base2 = basePool[1]?.scent || SCENTS.find((s) => s.id === 'synthetic_musk')!;
+  } else if (soulScent.note === 'base') {
+    topScent = topPool[0]?.scent || SCENTS.find((s) => s.id === 'lemon')!;
+    mid1 = midPool[0]?.scent || SCENTS.find((s) => s.id === 'white_tea')!;
+    mid2 = midPool[1]?.scent || SCENTS.find((s) => s.id === 'peach')!;
+    base1 = soulScent;
+    base2 = basePool[0]?.scent || SCENTS.find((s) => s.id === 'cedar')!;
+  } else {
+    // Soul scent is middle note (most common)
+    topScent = topPool[0]?.scent || SCENTS.find((s) => s.id === 'green_orange')!;
+    mid1 = soulScent;
+    mid2 = midPool[0]?.scent || SCENTS.find((s) => s.id === 'white_tea')!;
+    base1 = basePool[0]?.scent || SCENTS.find((s) => s.id === 'cedar')!;
+    base2 = basePool[1]?.scent || SCENTS.find((s) => s.id === 'synthetic_musk')!;
+  }
+
+  const allScents = [topScent, mid1, mid2, base1, base2];
+  const direction: Direction = {
+    name: `${soulScent.name}之适`,
+    simpleFeelings: simpleFeelings.slice(0, 3),
+    recommendedScents: allScents.map((s) => ({
+      scentId: s.id,
+      name: s.name,
+      note: s.note,
+      noteLabel: s.noteLabel,
+    })),
+  };
+
+  // 40 drops total: Top 8, Middle 16, Base 16
+  const formula: Formula = {
+    top: [{ scentId: topScent.id, name: topScent.name, drops: 8, note: 'top' }],
+    middle:
+      soulScent.note === 'middle'
+        ? [
+            { scentId: mid1.id, name: mid1.name, drops: 10, note: 'middle' },
+            { scentId: mid2.id, name: mid2.name, drops: 6, note: 'middle' },
+          ]
+        : [
+            { scentId: mid1.id, name: mid1.name, drops: 8, note: 'middle' },
+            { scentId: mid2.id, name: mid2.name, drops: 8, note: 'middle' },
+          ],
+    base:
+      soulScent.note === 'base'
+        ? [
+            { scentId: base1.id, name: base1.name, drops: 10, note: 'base' },
+            { scentId: base2.id, name: base2.name, drops: 6, note: 'base' },
+          ]
+        : [
+            { scentId: base1.id, name: base1.name, drops: 8, note: 'base' },
+            { scentId: base2.id, name: base2.name, drops: 8, note: 'base' },
+          ],
+  };
+
+  const perfumeName = generatePerfumeName(simpleFeelings, direction);
+
+  return {
+    parsedIntent,
+    simpleFeelings,
+    direction,
+    finalFormula: { formula, totalDrops: 40 },
+    perfumeName,
+  };
 }
 
 export interface AppState {
@@ -424,21 +610,66 @@ export function generatePerfumeName(
 
 export function generateStoryCard(data: {
   customerWish: string;
+  customerMood?: string;
+  customWish?: string;
   simplifiedFeelings: string[];
   finalFormula: { formula: Formula; totalDrops: number } | null;
   perfumeName: string;
+  customerName?: string;
+  heartYouthName?: string;
+  soulScentName?: string;
+  topScentName?: string;
+  baseScentName?: string;
+  youthArtworkImage?: string;
+  youthArtworkTitle?: string;
 }): StoryCard {
-  const { customerWish, simplifiedFeelings, finalFormula, perfumeName } = data;
-  const story = `你说："${customerWish || '想要一瓶特别的香水'}"\n\nAI 听懂了，这瓶香水应该是${(simplifiedFeelings || []).slice(0, 3).join('、')}的。\n\n从一句话到一瓶香水，AI 为你和心青年挑选了最适合的味道。\n\n这瓶叫「${perfumeName || '无名的香气'}」的香水，和心青年一起完成独属于你们的香氛记忆。`;
-  const lines = [
-    '闻见彼此，也是理解的开始。',
-    '香水里没有对错，只有你们一起的选择。',
-    '慢下来，等一等，就能一起完成一件事。',
-    '每一种味道，都是你们共同的心情翻译。',
-  ];
+  const {
+    customerWish,
+    customerMood = '松弛解压',
+    customWish,
+    simplifiedFeelings,
+    finalFormula,
+    perfumeName,
+    customerName = '特邀创作者',
+    heartYouthName = '心青年调香助理',
+    soulScentName = '',
+    topScentName = finalFormula?.formula?.top?.[0]?.name || '柑橘清风',
+    baseScentName = finalFormula?.formula?.base?.[0]?.name || '雪松木质',
+    youthArtworkImage,
+    youthArtworkTitle,
+  } = data;
+
+  const narrative = formatCardAnalysisNarrative({
+    customerName,
+    customerMood,
+    customWish,
+    topScentName,
+    soulScentName,
+    baseScentName,
+    youthName: heartYouthName.replace('调香顾问 ', '').replace('心青年 ', ''),
+  });
+
+  const story = narrative.coCreationStory + '\n\n' + narrative.harmonyAnalysis;
+
+  const now = new Date();
+  const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')}`;
+  const randomCode = Math.floor(1000 + Math.random() * 9000);
+  const serialNumber = `XS-${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, '0')}-${randomCode}`;
+
   return {
     title: perfumeName || '无名的香气',
-    coCreators: '你 × 心青年 × AI',
+    coCreators: `${customerName} × 心适力 × ${heartYouthName}`,
+    customerName,
+    heartYouthName,
+    customerMood,
+    customWish,
+    topScentName,
+    soulScentName: soulScentName || '适然调香',
+    baseScentName,
+    youthArtworkImage,
+    youthArtworkTitle,
+    serialNumber,
+    createdDate: dateStr,
     keywords: simplifiedFeelings || ['清新', '温柔'],
     formulaByNote: {
       top: finalFormula?.formula?.top?.map((i) => `${i.name}：${i.drops}滴`) || [],
@@ -446,8 +677,11 @@ export function generateStoryCard(data: {
       base: finalFormula?.formula?.base?.map((i) => `${i.name}：${i.drops}滴`) || [],
     },
     totalDrops: finalFormula?.totalDrops || 40,
-    diluentText: '最后请心青年加入稀释液完成制作',
+    diluentText: '经专用纯净调香稀释液融合熟化',
     story,
-    understandingLine: lines[Math.floor(Math.random() * lines.length)],
+    understandingLine: narrative.constantQuote,
+    coCreationStory: narrative.coCreationStory,
+    harmonyAnalysis: narrative.harmonyAnalysis,
+    constantQuote: narrative.constantQuote,
   };
 }

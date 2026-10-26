@@ -1,49 +1,74 @@
 :root {
-  --brand-yellow: #F5E617;
-  --brand-yellow-soft: #FFF8C6;
-  --brand-yellow-pale: #FFFBE8;
-  --brand-black: #1A1A1A;
-  --brand-black-soft: #2D2D2D;
-  --brand-cream: #F5F0E1;
-  --brand-cream-warm: #EDE5D0;
-  --brand-brown: #8B7355;
-  --brand-brown-light: #C4B59A;
-  --brand-brown-dark: #5C4A32;
-  --text-primary: #1A1A1A;
-  --text-secondary: #5C4A32;
-  --text-light: #9A8B74;
-  --border-color: #E0D8C8;
-  --card-bg: #FFFDF7;
-  --shadow-soft: 0 2px 16px rgba(26,26,26,0.06);
-  --shadow-card: 0 4px 24px rgba(26,26,26,0.08);
+  /* 心适力 品牌核心色彩 */
+  --brand-bg: #F6F0E6;          /* 品牌指定背景色 */
+  --brand-navy: #28384A;        /* 品牌主色：深海青墨 */
+  --brand-green: #83A94A;       /* 品牌主色：适然草木绿 */
+  --brand-coral: #F28C52;       /* 品牌主色：温暖柿橙 */
+  
+  /* 衍生柔和色调 */
+  --brand-bg-warm: #EFE8DC;
+  --brand-green-soft: #EBF2E1;
+  --brand-green-light: #F4F8EF;
+  --brand-coral-soft: #FDEFE7;
+  --brand-coral-hover: #E37C42;
+  --brand-navy-soft: #EDF1F5;
+  --brand-navy-dark: #1D2A38;
+  
+  /* 文本与边框 */
+  --text-primary: #28384A;
+  --text-secondary: #4D6173;
+  --text-light: #8295A6;
+  --border-color: #E2DDD3;
+  --border-color-subtle: #EDE8DE;
+  --card-bg: #FFFFFF;
+  --card-bg-warm: #FCFAF6;
+  
+  /* 阴影 */
+  --shadow-soft: 0 4px 18px rgba(40, 56, 74, 0.06);
+  --shadow-card: 0 8px 28px rgba(40, 56, 74, 0.09);
 }
 
 .perfume-app {
   max-width: 480px;
   margin: 0 auto;
   min-height: 100vh;
+  min-height: 100dvh;
   position: relative;
   font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-  background: var(--brand-cream);
+  background: var(--brand-bg);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
   overflow-x: hidden;
 }
 
 .perfume-page {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  animation: perfumeFadeInUp 0.5s ease-out;
+  animation: perfumeFadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.perfume-step-page {
+  padding: 16px 14px calc(28px + env(safe-area-inset-bottom, 14px));
+  box-sizing: border-box;
+  width: 100%;
+}
+
+@media (min-width: 414px) {
+  .perfume-step-page {
+    padding: 18px 18px calc(32px + env(safe-area-inset-bottom, 16px));
+  }
 }
 
 @keyframes perfumeFadeInUp {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes perfumeGentleFloat {
-  0%,100% { transform: translateY(0); }
+  0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
 }
 
@@ -52,81 +77,119 @@
   100% { transform: translateX(350%); }
 }
 
+/* 按钮规范 */
 .perfume-btn {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   padding: 16px 24px;
   border: none;
-  border-radius: 8px;
-  font-size: 17px;
+  border-radius: 12px;
+  font-size: 16px;
   font-weight: 700;
   font-family: 'Noto Sans SC', sans-serif;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   text-align: center;
-  min-height: 56px;
+  min-height: 54px;
   letter-spacing: 0.5px;
+  box-sizing: border-box;
 }
-.perfume-btn:active { transform: scale(0.97); }
+.perfume-btn:active { transform: scale(0.98); }
+
 .perfume-btn-primary {
-  background: var(--brand-black);
-  color: var(--brand-yellow);
-  box-shadow: 0 4px 16px rgba(26,26,26,0.2);
+  background: var(--brand-navy);
+  color: #FFFFFF;
+  box-shadow: 0 4px 16px rgba(40, 56, 74, 0.22);
 }
-.perfume-btn-yellow {
-  background: var(--brand-yellow);
-  color: var(--brand-black);
-  box-shadow: 0 4px 16px rgba(245,230,23,0.3);
+.perfume-btn-primary:hover {
+  background: var(--brand-navy-dark);
 }
+
+.perfume-btn-coral {
+  background: var(--brand-coral);
+  color: #FFFFFF;
+  box-shadow: 0 4px 18px rgba(242, 140, 82, 0.36);
+}
+.perfume-btn-coral:hover {
+  background: var(--brand-coral-hover);
+}
+
+.perfume-btn-green {
+  background: var(--brand-green);
+  color: #FFFFFF;
+  box-shadow: 0 4px 16px rgba(131, 169, 74, 0.32);
+}
+
 .perfume-btn-outline {
   background: transparent;
-  color: var(--brand-black);
-  border: 2px solid var(--brand-black);
+  color: var(--brand-navy);
+  border: 1.5px solid var(--brand-navy);
 }
-.perfume-btn-large {
-  font-size: 19px;
-  padding: 18px 24px;
-  min-height: 64px;
-  border-radius: 10px;
+.perfume-btn-outline:hover {
+  background: rgba(40, 56, 74, 0.05);
 }
 
+.perfume-btn-large {
+  font-size: 18px;
+  padding: 18px 28px;
+  min-height: 60px;
+  border-radius: 14px;
+}
+
+/* 输入框 */
 .perfume-input {
   width: 100%;
-  padding: 14px 16px;
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
-  font-size: 16px;
+  padding: 16px 18px;
+  border: 1.5px solid var(--border-color);
+  border-radius: 12px;
+  font-size: 15px;
+  line-height: 1.6;
   font-family: 'Noto Sans SC', sans-serif;
-  background: var(--card-bg);
+  background: #FFFFFF;
   color: var(--text-primary);
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.2s ease;
   resize: none;
+  box-sizing: border-box;
 }
-.perfume-input:focus { border-color: var(--brand-brown); }
+.perfume-input:focus {
+  border-color: var(--brand-navy);
+  box-shadow: 0 0 0 3px rgba(40, 56, 74, 0.08);
+}
 .perfume-input::placeholder { color: var(--text-light); }
 
+/* 标签 */
 .perfume-tag {
   display: inline-block;
   padding: 5px 14px;
   border-radius: 20px;
   font-size: 13px;
-  font-weight: 500;
-  background: var(--brand-yellow-soft);
-  color: var(--brand-black);
-  margin: 0 4px 4px 0;
-  border: 1px solid rgba(245,230,23,0.4);
+  font-weight: 600;
+  background: var(--brand-coral-soft);
+  color: var(--brand-coral);
+  margin: 0 4px 6px 0;
+  border: 1px solid rgba(242, 140, 82, 0.25);
 }
 
+.perfume-tag-green {
+  background: var(--brand-green-soft);
+  color: var(--brand-green);
+  border-color: rgba(131, 169, 74, 0.28);
+}
+
+/* 配方行 */
 .perfume-formula-row {
   display: flex;
   align-items: center;
-  padding: 10px 16px;
-  background: var(--card-bg);
-  border-radius: 8px;
-  margin-bottom: 6px;
-  border: 1px solid var(--border-color);
+  padding: 12px 16px;
+  background: var(--card-bg-warm);
+  border-radius: 10px;
+  margin-bottom: 8px;
+  border: 1px solid var(--border-color-subtle);
   gap: 12px;
+  transition: background 0.15s ease;
 }
 .perfume-formula-row-icon {
   width: 44px;
@@ -134,20 +197,21 @@
   border-radius: 8px;
   object-fit: cover;
   flex-shrink: 0;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border-color-subtle);
 }
 .perfume-formula-row-name {
   flex: 1;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-primary);
 }
 .perfume-formula-row-drops {
-  color: var(--brand-brown-dark);
+  color: var(--brand-coral);
   font-weight: 700;
   font-size: 16px;
 }
 
+/* 页面通用头部 */
 .perfume-page-header {
   text-align: center;
   padding: 0 20px;
@@ -179,113 +243,127 @@
   margin-top: auto;
 }
 
-/* Welcome */
+/* ================== Welcome 页面 ================== */
 .perfume-welcome-page {
-  background: var(--brand-yellow);
+  background: var(--brand-bg);
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 40px 24px;
+  padding: 48px 24px 36px;
   position: relative;
   overflow: hidden;
 }
 .perfume-welcome-page::before {
   content: '';
   position: absolute;
-  top: -60px;
-  right: -60px;
-  width: 200px;
-  height: 200px;
-  background: rgba(255,255,255,0.15);
+  top: -80px;
+  right: -80px;
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(131, 169, 74, 0.12) 0%, transparent 70%);
   border-radius: 50%;
+  pointer-events: none;
 }
 .perfume-welcome-page::after {
   content: '';
   position: absolute;
-  bottom: -40px;
-  left: -40px;
-  width: 160px;
-  height: 160px;
-  background: rgba(255,255,255,0.1);
+  bottom: -60px;
+  left: -60px;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(242, 140, 82, 0.1) 0%, transparent 75%);
   border-radius: 50%;
+  pointer-events: none;
 }
+
 .perfume-welcome-logo-wrap {
-  width: 160px;
-  height: 160px;
-  background: transparent;
+  width: 100%;
+  max-width: 220px;
+  height: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 28px;
-  animation: perfumeGentleFloat 3s ease-in-out infinite;
+  margin: 0 auto 24px;
+  animation: perfumeGentleFloat 3.5s ease-in-out infinite;
   position: relative;
-}
-.perfume-welcome-logo-wrap::before {
-  content: '';
-  position: absolute;
-  inset: -12px;
-  background: radial-gradient(ellipse at center, transparent 45%, var(--brand-yellow) 85%);
-  pointer-events: none;
-  z-index: 1;
+  z-index: 2;
 }
 .perfume-welcome-logo-wrap img {
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
-  position: relative;
 }
+
+.perfume-welcome-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  border-radius: 20px;
+  background: var(--brand-green-soft);
+  color: var(--brand-green);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
 .perfume-welcome-title {
   font-family: 'Noto Serif SC', serif;
-  font-size: 38px;
+  font-size: 36px;
   font-weight: 900;
-  color: var(--brand-black);
+  color: var(--brand-navy);
   margin-bottom: 8px;
   letter-spacing: 4px;
 }
 .perfume-welcome-en {
-  font-size: 13px;
-  color: var(--brand-black-soft);
-  letter-spacing: 2px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--brand-green);
+  letter-spacing: 2.5px;
   text-transform: uppercase;
-  margin-bottom: 32px;
-  opacity: 0.7;
+  margin-bottom: 28px;
 }
 .perfume-welcome-desc {
   font-size: 15px;
-  color: var(--brand-black-soft);
-  line-height: 1.9;
-  margin-bottom: 40px;
+  color: var(--text-secondary);
+  line-height: 2;
+  margin-bottom: 36px;
   max-width: 320px;
 }
 .perfume-welcome-footer {
-  font-size: 11px;
-  color: var(--brand-black-soft);
-  opacity: 0.5;
+  font-size: 12px;
+  color: var(--text-light);
   margin-top: 28px;
   max-width: 300px;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
-/* Input */
+/* ================== Input 页面 ================== */
 .perfume-input-page {
-  background: var(--card-bg);
-  padding-top: 48px;
+  background: var(--brand-bg);
+  padding-top: 40px;
 }
 .perfume-input-page .perfume-input-area {
   padding: 0 20px;
 }
 .perfume-hint-card {
-  background: var(--brand-yellow-pale);
-  border: 1.5px solid var(--brand-yellow-soft);
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--brand-green);
   border-radius: 12px;
   padding: 18px 20px;
   margin: 0 20px;
+  box-shadow: var(--shadow-soft);
 }
 .perfume-hint-card-title {
   font-size: 14px;
   font-weight: 700;
-  color: var(--brand-brown-dark);
+  color: var(--brand-green);
   margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 .perfume-hint-card li {
   font-size: 13px;
@@ -294,31 +372,33 @@
   padding-left: 4px;
 }
 
-/* Loading */
+/* ================== Loading 页面 ================== */
 .perfume-loading-page {
-  background: var(--brand-black);
+  background: var(--brand-navy);
   justify-content: center;
   align-items: center;
   text-align: center;
   padding: 40px 24px;
 }
 .perfume-loading-bird {
-  width: 80px;
-  height: 80px;
-  margin: 0 auto 32px;
-  opacity: 0.8;
-  animation: perfumeGentleFloat 2s ease-in-out infinite;
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: perfumeGentleFloat 2.4s ease-in-out infinite;
 }
 .perfume-loading-bird img {
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
   filter: brightness(0) invert(1);
 }
 .perfume-loading-spinner-bar {
-  width: 120px;
+  width: 140px;
   height: 3px;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.18);
   border-radius: 2px;
   margin: 24px auto 0;
   overflow: hidden;
@@ -326,61 +406,68 @@
 .perfume-loading-spinner-bar::after {
   content: '';
   display: block;
-  width: 40%;
+  width: 45%;
   height: 100%;
-  background: var(--brand-yellow);
+  background: var(--brand-coral);
   border-radius: 2px;
   animation: perfumeLoadingSlide 1.2s ease-in-out infinite;
 }
 .perfume-loading-text {
-  font-size: 18px;
-  color: rgba(255,255,255,0.9);
+  font-size: 19px;
+  color: #FFFFFF;
   margin-bottom: 8px;
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: 1px;
 }
 .perfume-loading-sub {
   font-size: 13px;
-  color: rgba(255,255,255,0.45);
-  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 1px;
 }
 
-/* Result */
+/* ================== Result 页面 ================== */
 .perfume-result-page {
-  background: var(--card-bg);
+  background: var(--brand-bg);
   padding: 20px 20px 0;
 }
 .perfume-result-back-btn {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   background: none;
   border: none;
   font-size: 14px;
-  color: var(--text-light);
+  font-weight: 600;
+  color: var(--brand-navy);
   cursor: pointer;
   padding: 8px 0;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   font-family: inherit;
+  transition: opacity 0.15s;
+}
+.perfume-result-back-btn:hover {
+  opacity: 0.8;
 }
 
 .perfume-story-card {
   position: relative;
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
   box-shadow: var(--shadow-card);
-  border: 1px solid var(--border-color);
+  border: 1.5px solid var(--border-color);
+  background: #FFFFFF;
 }
 .perfume-story-card-bg {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   background-size: cover;
   background-position: center;
-  opacity: 0.18;
+  opacity: 0.12;
 }
 .perfume-story-card-overlay {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(180deg, rgba(245,240,225,0.3) 0%, rgba(245,240,225,0.85) 40%, rgba(245,240,225,0.95) 100%);
+  background: linear-gradient(180deg, rgba(246, 240, 230, 0.4) 0%, rgba(255, 255, 255, 0.9) 40%, #FFFFFF 100%);
 }
 .perfume-story-card-content {
   position: relative;
@@ -388,74 +475,78 @@
   padding: 32px 24px 28px;
   text-align: center;
 }
+
 .perfume-story-card-seal {
   display: inline-block;
-  border: 2.5px solid var(--brand-brown);
+  border: 1.5px solid var(--brand-green);
+  background: var(--brand-green-light);
   border-radius: 6px;
-  padding: 4px 10px;
+  padding: 4px 12px;
   font-family: 'Noto Serif SC', serif;
   font-size: 12px;
-  color: var(--brand-brown);
-  letter-spacing: 2px;
+  font-weight: 700;
+  color: var(--brand-green);
+  letter-spacing: 1.5px;
   margin-bottom: 16px;
-  transform: rotate(-2deg);
 }
 .perfume-story-card-title {
   font-family: 'Noto Serif SC', serif;
   font-size: 28px;
   font-weight: 900;
-  color: var(--brand-black);
+  color: var(--brand-navy);
   margin-bottom: 6px;
   letter-spacing: 2px;
 }
 .perfume-story-card-creators {
   font-size: 13px;
   color: var(--text-light);
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   letter-spacing: 1px;
 }
 .perfume-story-card .perfume-tag {
   margin-bottom: 4px;
 }
+
 .perfume-story-formula {
   text-align: left;
   margin: 20px 0;
 }
 .perfume-formula-note-label {
   font-family: 'Noto Serif SC', serif;
-  font-size: 12px;
-  color: var(--brand-brown);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--brand-green);
   margin-bottom: 6px;
   padding-left: 2px;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
 }
 .perfume-formula-divider {
-  width: 40px;
+  width: 44px;
   height: 2px;
-  background: var(--brand-yellow);
-  margin: 16px auto;
-  border-radius: 1px;
+  background: linear-gradient(90deg, var(--brand-green), var(--brand-coral));
+  margin: 18px auto;
+  border-radius: 2px;
 }
 .perfume-story-text-block {
-  background: rgba(255,253,247,0.8);
+  background: rgba(246, 240, 230, 0.65);
   border-radius: 12px;
-  padding: 20px;
+  padding: 18px;
   text-align: left;
   margin-top: 16px;
-  border: 1px solid rgba(224,216,200,0.6);
+  border: 1px solid var(--border-color);
 }
 .perfume-story-text {
   font-size: 14px;
-  line-height: 1.8;
+  line-height: 1.85;
   color: var(--text-secondary);
   white-space: pre-line;
 }
 .perfume-story-underline {
   font-family: 'Noto Serif SC', serif;
   font-size: 14px;
-  color: var(--brand-brown-dark);
-  font-weight: 600;
-  margin-top: 12px;
+  color: var(--brand-navy);
+  font-weight: 700;
+  margin-top: 14px;
   text-align: center;
   letter-spacing: 0.5px;
 }
@@ -465,34 +556,1297 @@
   margin-top: 12px;
 }
 .perfume-story-drops-total strong {
-  color: var(--brand-brown-dark);
-  font-size: 18px;
+  color: var(--brand-coral);
+  font-size: 19px;
+  font-weight: 800;
 }
 .perfume-story-diluent {
   font-size: 12px;
-  color: var(--brand-brown);
+  font-weight: 600;
+  color: var(--brand-green);
   margin-top: 8px;
   padding: 6px 16px;
-  background: var(--brand-yellow-pale);
+  background: var(--brand-green-soft);
+  border: 1px solid rgba(131, 169, 74, 0.25);
   border-radius: 20px;
   display: inline-block;
 }
 
 .perfume-result-footer {
-  padding: 16px 20px 24px;
+  padding: 16px 20px 28px;
 }
 
+/* ==============================================
+   心适力 · 极简双人共创交互设计 (Refined Minimal UI)
+============================================== */
+
+/* 首页当班心青年高定名片 (替代原先丑陋的①②③卡片) */
+.youth-duty-card {
+  background: #FFFFFF;
+  border: 1.5px solid var(--border-color);
+  border-radius: 20px;
+  padding: 20px 22px;
+  margin: 22px auto 26px;
+  max-width: 360px;
+  box-shadow: 0 8px 24px rgba(40, 56, 74, 0.06);
+  text-align: left;
+  position: relative;
+  transition: all 0.2s ease;
+}
+.youth-duty-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.youth-duty-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--brand-coral);
+  background: var(--brand-coral-soft);
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+.youth-switch-trigger {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-light);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+.youth-switch-trigger:hover {
+  color: var(--brand-navy);
+  background: var(--brand-bg);
+}
+.youth-duty-profile {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.youth-duty-avatar {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FFE8D6, #FFD5B8);
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 4px 10px rgba(242, 140, 82, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+}
+.youth-duty-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.youth-duty-name {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--brand-navy);
+}
+.youth-duty-role {
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--brand-green-soft);
+  color: var(--brand-green);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+.youth-duty-personality {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+.youth-duty-quote {
+  background: #FAF7F2;
+  border-left: 3px solid var(--brand-coral);
+  border-radius: 4px 10px 10px 4px;
+  padding: 10px 12px;
+  font-size: 13px;
+  color: #4A5B6B;
+  font-style: normal;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+/* 自然融入页面的默契互动提示卡 (无需盲目去点右上角) */
+.inline-companion-tip {
+  background: #FFFBF5;
+  border: 1px dashed #E5C396;
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin: 14px 0 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  text-align: left;
+}
+.inline-companion-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.inline-companion-body {
+  flex: 1;
+}
+.inline-companion-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #935B1E;
+  margin-bottom: 2px;
+}
+.inline-companion-text {
+  font-size: 13px;
+  line-height: 1.55;
+  color: #554433;
+}
+
+/* 心青年管理/录入抽屉模态框 */
+.youth-admin-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(40, 56, 74, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: fadeIn 0.2s ease;
+}
+.youth-admin-modal {
+  background: #FFFFFF;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 420px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 22px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.16);
+  text-align: left;
+  animation: slideUp 0.25s ease;
+}
+.youth-admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 12px;
+}
+.youth-admin-title {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--brand-navy);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.youth-list-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.youth-list-item {
+  border: 1.5px solid var(--border-color);
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+.youth-list-item:hover {
+  background: #FAF8F4;
+}
+.youth-list-item.selected {
+  border-color: var(--brand-coral);
+  background: var(--brand-coral-soft);
+}
+.youth-list-item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.youth-list-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #FFEAD8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+.youth-list-name {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--brand-navy);
+}
+.youth-list-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* 录入新青年表单区 (独立弹窗，极简高效) */
+.youth-clean-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.youth-form-box {
+  background: #FAF8F4;
+  border-radius: 14px;
+  padding: 14px;
+  margin-top: 14px;
+}
+.youth-form-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--brand-navy);
+  margin-bottom: 10px;
+}
+.youth-form-group {
+  margin-bottom: 6px;
+}
+.youth-form-label {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--brand-navy);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.youth-form-label-desc {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+.youth-form-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 13px;
+  background: #FFFFFF;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease;
+}
+.youth-form-input:focus {
+  outline: none;
+  border-color: var(--brand-coral);
+}
+.youth-add-entry-btn {
+  width: 100%;
+  padding: 11px 16px;
+  border-radius: 12px;
+  border: 1.5px dashed var(--brand-coral);
+  background: rgba(242, 140, 82, 0.05);
+  color: var(--brand-coral-hover);
+  font-size: 13px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.youth-add-entry-btn:hover {
+  background: var(--brand-coral-soft);
+}
+
+/* 录入新青年：全新精装头像选择模块 */
+.youth-avatar-section {
+  background: #FAF8F4;
+  border: 1.5px solid var(--border-color);
+  border-radius: 14px;
+  padding: 14px;
+}
+.youth-avatar-main-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.youth-avatar-preview-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+.youth-avatar-current {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2.5px solid var(--brand-coral);
+  overflow: hidden;
+  background: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(242, 140, 82, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.youth-avatar-preview-badge {
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--brand-coral);
+  color: #FFFFFF;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 8px;
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+}
+.youth-avatar-action-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.youth-avatar-btn-row {
+  display: flex;
+  gap: 8px;
+}
+.youth-action-small-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px 10px;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1.5px solid var(--border-color);
+  background: #FFFFFF;
+  color: var(--brand-navy);
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+.youth-action-small-btn:hover {
+  border-color: var(--brand-coral);
+  color: var(--brand-coral);
+  background: #FFF9F5;
+}
+.youth-action-small-btn.active {
+  background: var(--brand-coral);
+  border-color: var(--brand-coral);
+  color: #FFFFFF;
+}
+
+/* 推荐专属真实顾问头像 (非表情) */
+.youth-preset-section {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(220, 210, 195, 0.7);
+}
+.youth-preset-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.youth-preset-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+.youth-preset-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border-color);
+  background: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+.youth-preset-item:hover {
+  border-color: var(--brand-coral);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(242, 140, 82, 0.15);
+}
+.youth-preset-item.selected {
+  border-color: var(--brand-coral);
+  background: #FFF3EB;
+  border-width: 2px;
+  box-shadow: 0 3px 10px rgba(242, 140, 82, 0.22);
+}
+.youth-preset-avatar-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F0ECE4;
+}
+.youth-preset-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 性格特点预设徽章 (修复文字挤压与连笔Bug) */
+.youth-trait-tags-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+.youth-trait-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  width: 100%;
+  padding: 7px 12px;
+  border-radius: 9px;
+  border: 1.5px solid var(--border-color);
+  background: #FFFFFF;
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+}
+.youth-trait-btn:hover {
+  border-color: var(--brand-coral);
+  background: #FFF9F5;
+  color: var(--brand-coral-hover);
+}
+.youth-trait-btn.active {
+  border-color: var(--brand-coral);
+  background: #FFF3EB;
+  color: var(--brand-coral-hover);
+  font-weight: 800;
+}
+.youth-trait-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brand-coral);
+  flex-shrink: 0;
+}
+
+/* 手绘画作上传与名称输入组合框 (修复并排按钮被挤压Bug) */
+.youth-artwork-upload-card {
+  background: #FAF8F4;
+  border: 1.5px solid var(--border-color);
+  border-radius: 14px;
+  padding: 12px 14px;
+}
+.youth-artwork-actions-row {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+.youth-artwork-upload-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 10px;
+  border: 1.5px solid var(--brand-navy);
+  background: #FFFFFF;
+  color: var(--brand-navy);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+.youth-artwork-upload-btn:hover {
+  border-color: var(--brand-coral);
+  color: var(--brand-coral);
+  background: #FFF9F5;
+}
+.youth-artwork-upload-btn.has-art {
+  border-color: var(--brand-coral);
+  color: var(--brand-coral);
+}
+.youth-artwork-input-wrap {
+  flex: 1;
+  min-width: 0;
+}
+.youth-artwork-preview-box {
+  margin-top: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  position: relative;
+  background: #FFFFFF;
+  height: 90px;
+}
+.youth-artwork-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.youth-artwork-preview-bar {
+  position: absolute;
+  bottom: 0;
+  inset-x: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.65), transparent);
+  padding: 4px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.youth-artwork-preview-title {
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+}
+.youth-artwork-remove-btn {
+  background: rgba(255,255,255,0.25);
+  border: none;
+  border-radius: 4px;
+  color: #FFFFFF;
+  font-size: 10px;
+  padding: 2px 6px;
+  cursor: pointer;
+}
+
+/* 顶部流线指示条 */
+.minimal-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: var(--brand-bg);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+.minimal-steps-dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.minimal-step-dot {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-light);
+  user-select: none;
+  transition: color 0.2s ease;
+}
+.minimal-step-dot.active {
+  color: var(--brand-navy);
+  font-weight: 800;
+}
+.minimal-step-dot.done {
+  color: var(--brand-green);
+}
+.minimal-dot-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #E8E2D5;
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 700;
+}
+.minimal-step-dot.active .minimal-dot-circle {
+  background: var(--brand-coral);
+  color: #FFFFFF;
+}
+.minimal-step-dot.done .minimal-dot-circle {
+  background: var(--brand-green);
+  color: #FFFFFF;
+}
+.minimal-dot-sep {
+  width: 14px;
+  height: 1.5px;
+  background: #DED7C8;
+}
+
+/* 顶部轻量贴士按钮 */
+.guide-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #A06424;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+  transition: all 0.2s ease;
+}
+.guide-toggle-btn:active {
+  transform: scale(0.96);
+  background: #FAF6ED;
+}
+
+/* 步骤 1：画报式香氛情境卡 (温暖明亮·与品牌背景 #F6F0E6 及主色调天然融洽) */
+.clean-mood-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 14px 0 20px;
+}
+
+.clean-mood-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  height: 218px;
+  cursor: pointer;
+  background-color: #FFFFFF;
+  border: 1.5px solid #E5DFD4;
+  box-shadow: 0 3px 12px rgba(40, 56, 74, 0.04), 0 1px 3px rgba(40, 56, 74, 0.03);
+  transition: all 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.clean-mood-card:hover {
+  transform: translateY(-2px);
+  border-color: #CEC3B4;
+  box-shadow: 0 8px 20px rgba(40, 56, 74, 0.08);
+}
+
+.clean-mood-card:active {
+  transform: scale(0.985);
+}
+
+/* 选中状态：温暖柿橙品牌主色边框与柔和明亮阴影，杜绝厚黑反差 */
+.clean-mood-card.selected {
+  border-color: var(--brand-coral);
+  box-shadow: 0 0 0 2px var(--brand-coral), 0 8px 22px rgba(242, 140, 82, 0.22);
+  transform: translateY(-2px);
+}
+
+/* 全幅自定义风格图片底图 (用户自主生成) */
+.clean-mood-scenic-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  z-index: 1;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: block;
+}
+
+.clean-mood-card:hover .clean-mood-scenic-image {
+  transform: scale(1.03);
+}
+
+/* 全幅意境画画布 (SVG 水彩底) */
+.clean-mood-scenic-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.clean-mood-card:hover .clean-mood-scenic-canvas {
+  transform: scale(1.03);
+}
+
+.clean-mood-scenic-canvas svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* 渐变防护覆层：从顶部透出柔和意境微光，底部自然融入温润纯白阅读区，确保文字极度舒适清晰 */
+.clean-mood-overlay {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  padding: 10px 10px 12px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.42) 0%,
+    rgba(255, 255, 255, 0.1) 28%,
+    rgba(255, 255, 255, 0.86) 62%,
+    rgba(255, 255, 255, 0.98) 94%
+  );
+}
+
+.clean-mood-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.clean-mood-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.clean-mood-badge.active {
+  background: var(--brand-coral);
+  color: #FFFFFF;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 800;
+  gap: 3px;
+  box-shadow: 0 2px 8px rgba(242, 140, 82, 0.4);
+}
+
+.clean-mood-unselected-ring {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid #C4BAB0;
+  background: rgba(255, 255, 255, 0.85);
+  display: inline-block;
+  box-shadow: 0 1px 3px rgba(40, 56, 74, 0.08);
+}
+
+.clean-mood-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-align: left;
+}
+
+.clean-mood-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.clean-mood-title {
+  font-size: 16.5px;
+  font-weight: 900;
+  color: var(--brand-navy);
+  letter-spacing: 0.2px;
+  margin: 0;
+}
+
+/* 6 款不同心境标签的专属雅致柔色，与品牌草木绿、柿橙、深海青相映生辉 */
+.clean-mood-tag-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+
+.clean-mood-card.mood-relax .clean-mood-tag-badge {
+  background: #EAF4E8;
+  color: #386927;
+  border: 1px solid #D2E7CF;
+}
+
+.clean-mood-card.mood-vitality .clean-mood-tag-badge {
+  background: #FEF3DE;
+  color: #9C5D07;
+  border: 1px solid #FCE4B6;
+}
+
+.clean-mood-card.mood-serene .clean-mood-tag-badge {
+  background: #E8F3FA;
+  color: #176596;
+  border: 1px solid #CBE2F1;
+}
+
+.clean-mood-card.mood-healing .clean-mood-tag-badge {
+  background: #FDF0F4;
+  color: #A32857;
+  border: 1px solid #F9D3E0;
+}
+
+.clean-mood-card.mood-nature .clean-mood-tag-badge {
+  background: #F5EFE6;
+  color: #5F442D;
+  border: 1px solid #E5D8CA;
+}
+
+.clean-mood-card.mood-gift .clean-mood-tag-badge {
+  background: #FDF0E7;
+  color: #BA4816;
+  border: 1px solid #F8D6C1;
+}
+
+.clean-mood-desc {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  line-height: 1.35;
+  margin: 0;
+  font-weight: 500;
+}
+
+.clean-mood-notes-pill {
+  margin-top: 4px;
+  padding: 4px 7px;
+  border-radius: 6px;
+  background: rgba(246, 240, 230, 0.72);
+  border: 1px solid rgba(40, 56, 74, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.clean-mood-notes-icon {
+  font-size: 9px;
+  color: var(--brand-coral);
+}
+
+.clean-mood-notes-text {
+  font-size: 10.5px;
+  color: var(--brand-navy);
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 步骤底部操作栏 (下一步并列上一步/返回按钮，防客人反悔或误触) */
+.perfume-step-actions {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+  margin-top: 16px;
+}
+
+.perfume-btn-step-back {
+  flex: 0 0 94px;
+  min-height: 52px;
+  background: #FFFFFF;
+  border: 1.5px solid var(--border-color);
+  color: var(--brand-navy);
+  border-radius: 14px;
+  font-size: 14.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 12px;
+  box-shadow: 0 2px 8px rgba(40, 56, 74, 0.04);
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.perfume-btn-step-back:hover {
+  background: var(--brand-bg-warm);
+  border-color: var(--brand-navy);
+}
+
+.perfume-btn-step-back:active {
+  transform: scale(0.97);
+}
+
+.perfume-btn-step-next {
+  flex: 1;
+  min-height: 52px;
+  font-size: 15.5px;
+  font-weight: 800;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 步骤 2：心青年大字无障碍选香卡 */
+.youth-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 16px 0 20px;
+}
+.youth-scent-card {
+  background: #FFFFFF;
+  border: 2.5px solid var(--border-color);
+  border-radius: 20px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.youth-scent-card:active {
+  transform: scale(0.98);
+}
+.youth-scent-card.selected {
+  border-color: var(--brand-coral);
+  background: #FFFDFC;
+  box-shadow: 0 8px 24px rgba(242, 140, 82, 0.22);
+}
+.youth-scent-img {
+  width: 68px;
+  height: 68px;
+  border-radius: 16px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid var(--border-color);
+}
+.youth-scent-details {
+  flex: 1;
+  text-align: left;
+}
+.youth-scent-name {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--brand-navy);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.youth-scent-note-tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 8px;
+  background: var(--brand-green-soft);
+  color: var(--brand-green);
+}
+.youth-scent-feeling {
+  font-size: 14px;
+  color: #D35E20;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* 心青年念读台词条 */
+.youth-speech-bubble {
+  background: #FFFFFF;
+  border: 2px solid #F9CFB8;
+  border-radius: 16px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  text-align: left;
+  box-shadow: 0 4px 14px rgba(242, 140, 82, 0.1);
+}
+.youth-speech-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #D35E20;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.youth-speech-line {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--brand-navy);
+  line-height: 1.5;
+}
+
+/* 步骤 3：极简配方单 */
+.clean-recipe-card {
+  background: #FFFFFF;
+  border-radius: 18px;
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-soft);
+  text-align: left;
+}
+.recipe-section-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--brand-navy);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.recipe-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--brand-bg);
+  margin-bottom: 8px;
+}
+.recipe-item-row.is-soul {
+  background: var(--brand-coral-soft);
+  border: 1px solid #F9CFB8;
+}
+.recipe-item-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--brand-navy);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.recipe-item-drops {
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--brand-coral);
+}
+.recipe-diluent-box {
+  background: var(--brand-green-soft);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-top: 14px;
+  font-size: 13px;
+  color: #38561C;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* 极简双人署名 */
+.clean-sign-box {
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  padding: 18px;
+  margin-bottom: 24px;
+  text-align: left;
+}
+.clean-sign-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--brand-navy);
+  margin-bottom: 12px;
+}
+.clean-sign-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.clean-sign-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  width: 70px;
+  flex-shrink: 0;
+}
+.clean-sign-input {
+  flex: 1;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--brand-navy);
+  background: var(--brand-bg);
+}
+.clean-sign-input:focus {
+  outline: none;
+  border-color: var(--brand-coral);
+  background: #FFFFFF;
+}
+.clean-youth-tags {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+.clean-youth-tag {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 14px;
+  background: #F0EDE6;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.clean-youth-tag.active {
+  background: var(--brand-green);
+  color: #FFFFFF;
+}
+
+/* 伴随指引浮层模态框 (顾客点击灯泡才展开) */
+.companion-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(40, 56, 74, 0.5);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+.companion-sheet-modal {
+  background: #FFFFFF;
+  border-radius: 24px 24px 0 0;
+  width: 100%;
+  max-width: 480px;
+  padding: 24px 22px 34px;
+  text-align: left;
+  box-shadow: 0 -8px 30px rgba(0,0,0,0.15);
+  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.companion-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.companion-sheet-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--brand-navy);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.companion-sheet-close {
+  background: #F0EDE6;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+.companion-sheet-content {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #4A5B6B;
+}
+.companion-sheet-tip-box {
+  background: #FDF9F2;
+  border: 1px solid #EADBCE;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-top: 12px;
+  color: #8C5A24;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+/* 调香故事卡增强印记 */
+.card-signature-box {
+  background: rgba(246, 240, 230, 0.7);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin: 16px 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-sign-col {
+  text-align: left;
+}
+.card-sign-role {
+  font-size: 11px;
+  color: var(--text-light);
+  margin-bottom: 2px;
+}
+.card-sign-name {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--brand-navy);
+}
+.card-stamp-mark {
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--brand-coral);
+  border-radius: 50%;
+  color: var(--brand-coral);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 900;
+  line-height: 1.1;
+  transform: rotate(-10deg);
+  background: rgba(242, 140, 82, 0.05);
+  box-shadow: 0 0 0 2px rgba(242, 140, 82, 0.2);
+}
+
+/* 成果页操作区 */
+.co-result-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 20px 24px;
+}
+
+/* 预览模态框 */
 .perfume-preview-overlay {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(40, 56, 74, 0.88);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
+  backdrop-filter: blur(4px);
 }
-
 .perfume-preview-body {
   display: flex;
   flex-direction: column;
@@ -500,42 +1854,404 @@
   max-width: 400px;
   width: 100%;
 }
-
 .perfume-preview-img {
   width: 100%;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border-radius: 14px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
   -webkit-touch-callout: default;
   -webkit-user-select: auto;
   user-select: auto;
 }
-
 .perfume-preview-hint {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.85);
   font-size: 13px;
   margin-top: 16px;
   text-align: center;
 }
-
 .perfume-preview-actions {
   display: flex;
   gap: 12px;
   margin-top: 16px;
 }
-
 .perfume-preview-actions .perfume-btn {
-  color: #fff;
+  color: #FFFFFF;
   border-color: rgba(255, 255, 255, 0.4);
   font-size: 14px;
   padding: 8px 24px;
 }
-
 .perfume-preview-actions .perfume-btn:active {
   background: rgba(255, 255, 255, 0.15);
 }
 
-@media (max-width: 380px) {
-  .perfume-welcome-title { font-size: 32px; }
-  .perfume-page-title { font-size: 22px; }
-  .perfume-story-card-title { font-size: 24px; }
+/* 自定义头像照片与拍摄 */
+.youth-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
+.youth-avatar-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+  border: 2px solid var(--border-color);
+}
+.youth-camera-overlay {
+  background: #1D2A38;
+  border-radius: 14px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+.youth-camera-video {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--brand-coral);
+}
+.youth-camera-controls {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  justify-content: center;
+}
+
+/* 步骤1：香气底色与轻量期待补充 */
+.selected-mood-reveal-panel {
+  animation: moodRevealSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes moodRevealSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.perfume-step-select-hint {
+  flex: 1;
+  min-height: 48px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1.5px dashed #D6CEC1;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 10px 14px;
+  box-sizing: border-box;
+  user-select: none;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.custom-scent-wish-box {
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin: 16px 0 12px;
+  text-align: left;
+  box-shadow: var(--shadow-soft);
+}
+.custom-scent-wish-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--brand-navy);
+  margin-bottom: 6px;
+  display: block;
+}
+.custom-scent-wish-input {
+  width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: var(--text-primary);
+  background: #FAF8F4;
+  outline: none;
+  resize: none;
+  font-family: inherit;
+  box-sizing: border-box;
+  line-height: 1.45;
+}
+.custom-scent-wish-input:focus {
+  border-color: var(--brand-coral);
+  background: #FFFFFF;
+}
+
+.base-tone-note-bar {
+  background: #F4F8EE;
+  border: 1px solid #D5E5C0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin: 10px 0 20px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #3B5424;
+  line-height: 1.45;
+}
+
+/* AI 命名控制条 (步骤3与步骤4) */
+.perfume-name-action-bar {
+  background: #FFFFFF;
+  border: 1.5px solid var(--border-color);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  box-shadow: var(--shadow-soft);
+}
+.perfume-name-info {
+  text-align: left;
+  flex: 1;
+}
+.perfume-name-label {
+  font-size: 11px;
+  color: var(--text-light);
+  margin-bottom: 2px;
+}
+.perfume-name-value {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 17px;
+  font-weight: 900;
+  color: var(--brand-navy);
+  letter-spacing: 0.5px;
+}
+.perfume-name-switch-btn {
+  background: var(--brand-coral-soft);
+  border: 1px solid rgba(242, 140, 82, 0.35);
+  color: var(--brand-coral-hover);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+.perfume-name-switch-btn:hover {
+  background: var(--brand-coral);
+  color: #FFFFFF;
+}
+
+/* 成果调香卡：心青年真实艺术画作展框 */
+.story-card-artwork-frame {
+  margin: 14px 0 16px;
+  background: #FFFFFF;
+  border: 1.5px solid #E8E2D6;
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 4px 14px rgba(40, 56, 74, 0.05);
+}
+.story-card-artwork-img {
+  width: 100%;
+  height: 150px;
+  border-radius: 8px;
+  object-fit: cover;
+  display: block;
+}
+.story-card-artwork-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 4px 2px;
+}
+.story-card-artwork-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--brand-navy);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.story-card-artwork-tag {
+  font-size: 10px;
+  color: var(--brand-coral);
+  background: var(--brand-coral-soft);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+/* 成果调香卡：底部结构化叙事与恒定金句 */
+.card-narrative-container {
+  background: #FAF8F4;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-top: 14px;
+  text-align: left;
+}
+.card-narrative-title {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--brand-coral);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+.card-narrative-title-left {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.card-narrative-ai-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8C7B6B;
+  background: rgba(224, 122, 95, 0.08);
+  padding: 2px 7px;
+  border-radius: 10px;
+}
+.card-narrative-story {
+  font-size: 13px;
+  color: var(--brand-navy);
+  line-height: 1.65;
+  margin-bottom: 8px;
+}
+.card-narrative-story-loading {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #9C8E80;
+  font-style: italic;
+}
+.card-narrative-harmony {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.card-constant-quote-box {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed #DDD7CD;
+  text-align: center;
+}
+.card-constant-quote-text {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--brand-coral-hover);
+  letter-spacing: 0.5px;
+  line-height: 1.5;
+}
+
+/* ================= 移动端主流机型视口与体验深度适配 (iPhone, Android, 微信/小程序 WebView) ================= */
+@media (max-width: 420px) {
+  .perfume-welcome-title { font-size: 32px; }
+  .youth-duty-profile { gap: 12px; }
+}
+
+@media (max-width: 380px) {
+  .perfume-welcome-title { font-size: 28px; }
+  .perfume-page-title { font-size: 21px; }
+  .perfume-story-card-title { font-size: 23px; }
+  
+  /* 步骤 1：小屏下情境画卡紧凑微调，确保内容舒展不换行截断 */
+  .clean-mood-grid {
+    gap: 9px;
+    margin: 12px 0 16px;
+  }
+  .clean-mood-card {
+    height: 206px;
+    border-radius: 14px;
+  }
+  .clean-mood-title {
+    font-size: 15px;
+  }
+  .clean-mood-tag-badge {
+    font-size: 9px;
+    padding: 1.5px 5px;
+  }
+  .clean-mood-desc {
+    font-size: 10.5px;
+  }
+  .clean-mood-notes-pill {
+    padding: 3px 5px;
+    gap: 4px;
+  }
+  .clean-mood-notes-text {
+    font-size: 9.5px;
+  }
+
+  /* 底部返回与下一步双按键紧凑布局 */
+  .perfume-step-actions {
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .perfume-btn-step-back {
+    flex: 0 0 82px;
+    font-size: 13.5px;
+    padding: 10px 8px;
+    border-radius: 12px;
+  }
+  .perfume-btn-step-next {
+    font-size: 14.5px;
+    padding: 10px 12px;
+    border-radius: 12px;
+  }
+
+  /* 步骤 2：心青年大卡小屏紧凑 */
+  .youth-scent-card {
+    padding: 12px;
+    gap: 10px;
+    border-radius: 14px;
+  }
+  .youth-scent-img {
+    width: 58px;
+    height: 58px;
+    border-radius: 10px;
+  }
+  .youth-scent-name {
+    font-size: 17px;
+  }
+  .youth-scent-feeling {
+    font-size: 12px;
+  }
+
+  /* 步骤 3：配比单卡片小屏内边距 */
+  .clean-recipe-card {
+    padding: 14px 12px;
+  }
+  .clean-sign-box {
+    padding: 12px;
+  }
+}
+
+/* 微信或特定全屏 Webview 滚动回弹优化与安全区域垫高 */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .perfume-app {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+

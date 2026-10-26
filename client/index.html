@@ -1,16 +1,22 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link rel="icon" href="/favicon.svg">
-  <title>妙搭</title>
+  <title>闻见彼此 - AI调香 × 心适力</title>
+  <meta name="description" content="心适力 AI智能调香应用，用一句话生成专属香水配方与香气故事卡片">
+  <meta property="og:title" content="闻见彼此 - AI调香 × 心适力">
+  <meta property="og:description" content="心适力 AI智能调香应用，用一句话生成专属香水配方与香气故事卡片">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
   <script>
+    window.process = window.process || { env: { CLIENT_BASE_PATH: '' } };
     try {
       window.__platform__ = JSON.parse('{{{__platform__}}}');
     } catch (e) {
-      console.error('Failed to parse __platform__', e);
+      window.__platform__ = {};
     }
   </script>
 </head>

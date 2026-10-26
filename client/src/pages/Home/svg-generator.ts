@@ -241,17 +241,45 @@ function drawBottle(
   return svg;
 }
 
-export function generateNoteSVG(noteType: string, scentNames: string[]): string {
+export function generateNoteSVG(
+  arg1: string | string[],
+  arg2?: string | string[],
+): string {
+  let noteType = 'card';
+  let rawScentNames: string[] = [];
+
+  if (Array.isArray(arg1)) {
+    rawScentNames = arg1;
+    if (typeof arg2 === 'string') {
+      noteType = arg2;
+    }
+  } else if (Array.isArray(arg2)) {
+    noteType = arg1 || 'card';
+    rawScentNames = arg2;
+  } else {
+    noteType = arg1 || 'card';
+    if (typeof arg2 === 'string') {
+      rawScentNames = [arg2];
+    }
+  }
+
+  const cleanNames = rawScentNames.map((n) => {
+    if (!n || typeof n !== 'string') return '';
+    return n.split('：')[0].split(':')[0].trim();
+  }).filter(Boolean);
+
   const W = 440;
   const H = 140;
-  const rng = seededRandom(hashStr(scentNames.join(',') + noteType + Date.now()));
-  const scents = scentNames.map((n) => SCENTS.find((s) => s.name === n)).filter(Boolean) as Scent[];
+  const rng = seededRandom(hashStr(cleanNames.join(',') + noteType + Date.now()));
+  const scents = cleanNames
+    .map((n) => SCENTS.find((s) => s.name === n || n.includes(s.name)))
+    .filter(Boolean) as Scent[];
   const primary = scents[0];
   const cat = primary
     ? WATERCOLOR_PALETTE[primary.category] || WATERCOLOR_PALETTE.floral
     : WATERCOLOR_PALETTE.floral;
   const category = primary ? primary.category : 'floral';
-  const fid = noteType + (hashStr(scentNames.join(',')) % 9999);
+  const fid = (noteType.replace(/[^a-zA-Z0-9]/g, '') || 'note') + (hashStr(cleanNames.join(',')) % 9999);
 
   const filterDef = `
     <defs>
@@ -270,7 +298,7 @@ export function generateNoteSVG(noteType: string, scentNames: string[]): string 
     </defs>`;
 
   let bgElements = '';
-  bgElements += `<rect width="${W}" height="${H}" rx="10" fill="#F5F0E1"/>`;
+  bgElements += `<rect width="${W}" height="${H}" rx="10" fill="#F6F0E6"/>`;
   const washColors = [cat.wash1, cat.wash2, cat.main, cat.wash1];
   const washCount = 3 + Math.floor(rng() * 2);
   for (let i = 0; i < washCount; i++) {
@@ -385,8 +413,8 @@ export function generateNoteSVG(noteType: string, scentNames: string[]): string 
   const spx = W * 0.8 + rng() * W * 0.12;
   const spy = 10 + rng() * 22;
   const sps = 0.28 + rng() * 0.2;
-  const sparrowArt = `<g transform="translate(${spx},${spy}) scale(${sps})" opacity="0.08" filter="url(#wcSoft${fid})">
-      <path d="M0,0 C-4,-8 -16,-10 -22,-6 C-18,-4 -10,-2 -4,2 C-8,4 -16,8 -20,14 C-14,10 -6,6 0,4 C2,6 6,10 10,8 C8,6 4,4 2,2 C6,0 10,-2 12,-6 C8,-4 4,-2 0,0Z" fill="${cat.detail}"/>
+  const leafArt = `<g transform="translate(${spx},${spy}) scale(${sps})" opacity="0.08" filter="url(#wcSoft${fid})">
+      <path d="M0,0 C-6,-10 -16,-12 -22,-6 C-14,-2 -8,2 0,6 C6,4 12,0 16,-6 C10,-4 4,-2 0,0Z" fill="${cat.detail}"/>
     </g>`;
 
   let watermarkArt = '';
@@ -397,12 +425,12 @@ export function generateNoteSVG(noteType: string, scentNames: string[]): string 
     watermarkArt += `<text x="${wx}" y="${wy}" text-anchor="end" font-family="'Noto Serif SC','Georgia',serif" font-size="11" fill="${cat.detail}" opacity="${wOpacity}" font-style="italic">${s.englishName}</text>`;
   });
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="100%" height="140" style="display:block;border-radius:10px;border:1px solid #E0D8C8;margin-bottom:10px;">
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="100%" height="140" style="display:block;border-radius:10px;border:1px solid #E2DDD3;margin-bottom:10px;">
     ${filterDef}
     ${bgElements}
     ${mainArt}
     ${accentArt}
-    ${sparrowArt}
+    ${leafArt}
     ${watermarkArt}
   </svg>`;
 }

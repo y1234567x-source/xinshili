@@ -1,0 +1,6 @@
+{
+  "name": "闻见彼此 AI调香",
+  "description": "心适力 闻见彼此 · 心青年与顾客双人共创调香工坊，现场调香与纪念卡生成",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
